@@ -1,0 +1,99 @@
+import React, {useContext} from 'react';
+import styled from "styled-components";
+import {AnswerText, Text, Title} from "../shared/Text";
+import {ProgressContext} from "../context/ProgressContext";
+import {HeaderContainer} from "./Header";
+import {NextButton} from "../shared/NextButton";
+import {getAnswerById} from "../utils/getAnswerById";
+
+
+const RootWrapper = styled.div`
+        display: grid;
+        grid-template-rows: auto minmax(510px, 72.1184vh) auto;
+        @media screen and (max-height: 550px){
+           grid-template-rows: auto fit-content(65vh) auto;
+        }
+        @media screen and (min-width: 1100px){
+           grid-template-rows: auto 70vh auto;
+        }
+`
+
+const Wrapper = styled.div`
+    padding: 2.8913vh 3.6231vw;
+    white-space: pre-wrap;
+    grid-row: 2/3;
+    @media screen and (min-width: 640px){
+          white-space: normal;
+          max-width: 640px;
+    }
+    @media screen and (min-width: 1100px){
+      padding: 8.4444vh 6.5972vw;
+      max-width: 1127px;
+    }
+`
+const Question = styled(Title)`
+    max-width: 800px;
+`
+
+const AnswerWrapper = styled.div`
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 14px;
+    padding: 1.478495vh 4vw 1.478495vh 6.280193vw;
+    margin-top: 1.6129vh;
+    @media screen and (min-width: 1100px){
+      padding: 22px 70px 22px 24px;
+      margin-top: 2vh;
+    }
+`
+const ActiveAnswerWrapper = styled(AnswerWrapper)`
+   border-color: #00923A;
+   background: #00923A;
+   color: white;
+`
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    padding:  0 3.6231vw 5px;
+    grid-row: 3/4;
+`
+
+const QuestionWrapper = (props) => {
+    const {question} = props;
+    const {sex, setNext, points, setPoints, setAnswer, answers} = useContext(ProgressContext);
+
+    const onAnswerChoose = (id) => {
+        setAnswer(question.id,id);
+        setTimeout(()=>{
+            if (getAnswerById(question.id,id).isCorrect) setPoints(prev=> prev + 1);
+            setNext();
+        }, 1000)
+    }
+
+    return <RootWrapper>
+        <HeaderContainer points={points}/>
+        <Wrapper>
+            <Question>{question.question}</Question>
+            {question.text ? <Text>{question.text[sex]}</Text> : <br/>}
+            <div>
+                {question.answers.map(answer=>answers[question.id] === answer.id ?
+                    <ActiveAnswerWrapper>
+                        <AnswerText>
+                            {answer.text[sex]}
+                        </AnswerText>
+                    </ActiveAnswerWrapper>
+                    : <AnswerWrapper onClick={()=>onAnswerChoose(answer.id)}>
+                        <AnswerText>
+                            {answer.text[sex]}
+                        </AnswerText>
+                </AnswerWrapper>)}
+            </div>
+        </Wrapper>
+
+        <ButtonWrapper>
+            <NextButton onClick={setNext}/>
+        </ButtonWrapper>
+    </RootWrapper>
+}
+
+export default QuestionWrapper;
