@@ -39,6 +39,7 @@ const AnswerWrapper = styled.div`
     border: 2px solid #FFFFFF;
     box-sizing: border-box;
     border-radius: 14px;
+    cursor: pointer;
     padding: 1.478495vh 4vw 1.478495vh 6.280193vw;
     margin-top: 1.6129vh;
     @media screen and (min-width: 1100px){
@@ -47,9 +48,9 @@ const AnswerWrapper = styled.div`
     }
 `
 const ActiveAnswerWrapper = styled(AnswerWrapper)`
-   border-color: #00923A;
-   background: #00923A;
-   color: white;
+   border-color: #ffffff;
+   background: #ffffff;
+   color: #000;
 `
 
 const ButtonWrapper = styled.div`
