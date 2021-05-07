@@ -13,6 +13,10 @@ const RootWrapper = styled.div`
         @media screen and (max-height: 550px){
            grid-template-rows: auto minmax(480px, 65.4139vh) auto;
         }
+        
+        @media screen and (min-width: 1100px){
+           grid-template-rows:auto minmax(565px, 68vh) auto
+        }
 `
 const Wrapper = styled.div`
     padding: 2.569893vh 7.2463vw 0;
@@ -105,7 +109,7 @@ const LinkBtn = styled.a`
 const Final = () => {
     const {points} = useContext(ProgressContext);
 
-    const result = getResult(points);
+    const result = getResult(13);
 
     return <RootWrapper>
         <HeaderContainer points={points}/>
@@ -117,9 +121,7 @@ const Final = () => {
                 <ResultSlider>
                     <ResultMark styles={result.style} />
                 </ResultSlider>
-                <Text>
-                    {result.text}
-                </Text>
+                {result.text()}
             </TextWrapper>
 
         </Wrapper>
