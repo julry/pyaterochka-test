@@ -109,7 +109,7 @@ const LinkBtn = styled.a`
 const Final = () => {
     const {points} = useContext(ProgressContext);
 
-    const result = getResult(13);
+    const result = getResult(points);
 
     return <RootWrapper>
         <HeaderContainer points={points}/>
