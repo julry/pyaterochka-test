@@ -5,6 +5,8 @@ import {ProgressContext} from "../context/ProgressContext";
 import {HeaderContainer} from "./Header";
 import {NextButton} from "../shared/NextButton";
 import {getAnswerById} from "../utils/getAnswerById";
+import {questions} from "../questions.config";
+import {reachMetrikaGoal} from "../utils/reachMetrikaGoal";
 
 
 const RootWrapper = styled.div`
@@ -68,7 +70,17 @@ const QuestionWrapper = (props) => {
         setTimeout(()=>{
             if (getAnswerById(question.id,id).isCorrect) setPoints(prev=> prev + 1);
             setNext();
+           if(+question.id === questions.length){
+                reachMetrikaGoal('finish');
+           }
         }, 1000)
+    }
+
+    const onSkip = () => {
+        if(+question.id === questions.length){
+            reachMetrikaGoal('finish');
+        }
+        setNext();
     }
 
     return <RootWrapper>
@@ -78,12 +90,12 @@ const QuestionWrapper = (props) => {
             {question.text ? <Text>{question.text[sex]}</Text> : <br/>}
             <div>
                 {question.answers.map(answer=>answers[question.id] === answer.id ?
-                    <ActiveAnswerWrapper>
+                    <ActiveAnswerWrapper key={answer.id+question.id}>
                         <AnswerText>
                             {answer.text[sex]}
                         </AnswerText>
                     </ActiveAnswerWrapper>
-                    : <AnswerWrapper onClick={()=>onAnswerChoose(answer.id)}>
+                    : <AnswerWrapper  key={answer.id} onClick={()=>onAnswerChoose(answer.id)}>
                         <AnswerText>
                             {answer.text[sex]}
                         </AnswerText>
@@ -92,7 +104,7 @@ const QuestionWrapper = (props) => {
         </Wrapper>
 
         <ButtonWrapper>
-            <NextButton onClick={setNext}/>
+            <NextButton onClick={onSkip}/>
         </ButtonWrapper>
     </RootWrapper>
 }

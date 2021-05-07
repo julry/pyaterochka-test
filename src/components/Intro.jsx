@@ -8,6 +8,7 @@ import {Text} from "../shared/Text";
 import {NextButton} from "../shared/NextButton";
 import {ProgressContext} from "../context/ProgressContext";
 import {SexType} from "./ScreenWrapper";
+import {reachMetrikaGoal} from "../utils/reachMetrikaGoal";
 
 
 
@@ -85,11 +86,13 @@ const Title = styled.h2`
 const ButtonsContainer = styled(FlexContainer)`
     margin-top: 3.2vh;
     
-    @media screen and (min-height: 670px){
+    @media screen and (max-width: 1100px) and (min-height: 670px){
         position: fixed;
         width: calc(100% - 17.6vw);
         bottom: 45px;
     }
+    
+   
 `
 
 const SexButton = styled(FlexContainer)`
@@ -142,6 +145,7 @@ const Intro = () => {
 
     const onStart = () => {
         setSex(sex);
+        reachMetrikaGoal('start');
         setNext();
     }
     return <div>
